@@ -75,12 +75,12 @@ const addEmployee = () => {
             {
                 name: 'firstName',
                 type: 'input',
-                message: addEmployeeQuestions[0]
+                message: questionEmp[0]
             },
             {
                 name: 'lastName',
                 type: 'input',
-                choice: addEmployeeQuestions[1]
+                choice: questionEmp[1]
             },
             {
                 name: 'role',
@@ -89,7 +89,7 @@ const addEmployee = () => {
                     let choices = result[0].map(choice => choice.title);
                     return choices;
                 },
-                message: addEmployeeQuestions[2]
+                message: questionEmp[2]
             },
             {
                 name: 'manager',
@@ -98,12 +98,12 @@ const addEmployee = () => {
                     let choices = result[1].map(choice => choice.full_name);
                     return choices;
                 },
-                message: addEmployeeQuestions[3]
+                message: questionEmp[3]
             }
         ]) .then((answer) => {
             connection.query(
                 `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES(?, ?, (SELECT id FROM roles WHERE title = ? ),
-            (SELECT id FROM (SELECT if FROM employee WHERE CONCAT(first_name, " ",last_name) = ? ) AS tempTable))`, [answer.firstName, answer.lastName, answer.role, answer.manager]
+            (SELECT id FROM (SELECT id FROM employee WHERE CONCAT(first_name," ",last_name) = ? ) AS tempTable))`, [answer.firstName, answer.lastName, answer.role, answer.manager]
             )
             run();
         })
@@ -111,7 +111,7 @@ const addEmployee = () => {
 }
 
 const removeEmployee = () => {
-    connection.query(questionEmp, (err, result) => {
+    connection.query(queryEmp, (err, result) => {
         if (err) throw err;
         console.log('');
         console.table(('All Employees'), result)
@@ -123,14 +123,14 @@ const removeEmployee = () => {
                 message: 'Enter employee id you wish to remove:'
             }
         ]) .then((answer) => {
-            connection.query(`DELETE FROM employee WHERE ?`, { id: answer.removeID});
+            connection.query(`DELETE FROM employee WHERE ?`, { id: answer.removeID });
             run();
         })
     })
 }
 
 const updateEmployee = () => {
-    const retrieve = `SELECT CONCAT (first_name, " ",last_name) AS full_name FROM employee; SEELCT title FROM roles`
+    const retrieve = `SELECT CONCAT (first_name," ",last_name) AS full_name FROM employee; SELECT title FROM roles`
 
     connection.query(retrieve, (err, result) => {
         if (err) throw err;
@@ -155,7 +155,7 @@ const updateEmployee = () => {
             }
         ]) .then((answer) => {
             connection.query(`UPDATE employee SET role_id = (SELECT id FROM roles WHERE title = ?)
-                WHERE id = (SELECT id FROM employee WHERE CONCAT (first_name, " ", last_name) = ?) AS tempTable)`, [answer.role, answer.employee], (err, result) => {
+                WHERE id = (SELECT id FROM (SELECT id FROM employee WHERE CONCAT (first_name," ",last_name) = ?) AS tempTable)`, [answer.role, answer.employee], (err, result) => {
                     if (err) throw err;
                     run();
                 })
