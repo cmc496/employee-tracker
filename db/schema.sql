@@ -4,12 +4,12 @@ USE employee_tracker;
 
 CREATE TABLE department (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    department_name VARCHAR(20)
+    department_name VARCHAR(30)
 );
 
 CREATE TABLE roles (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    title VARCHAR(20),
+    title VARCHAR(30),
     salary DECIMAL(10.3),
     department_id INT,
     FOREIGN KEY (department_id) REFERENCES department(id)
@@ -17,7 +17,7 @@ CREATE TABLE roles (
 
 CREATE TABLE employee (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(20) NOT NULL,
+    first_name VARCHAR(30) NOT NULL,
     last_name VARCHAR(30) NOT NULL,
     role_id INT,
     manager_id INT,
