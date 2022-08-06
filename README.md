@@ -22,7 +22,9 @@
     * mysql2
 
 ## Link to Video Walkthrough
-* link
+* https://user-images.githubusercontent.com/99096273/183263653-04dc562e-2c5f-4699-9c6b-22ec75e5853e.mp4
+
+
 
 ## Installation
 * If not already installed, install node.js (https://nodejs.org/en/download/)
