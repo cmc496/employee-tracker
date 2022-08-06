@@ -24,7 +24,7 @@ VALUES
 ("Kunal", "Singh", 4),
 ("Malia", "Brown", 5),
 ("Sarah", "Lourd", 6),
-("Tom", "Allen", 7)
+("Tom", "Allen", 7);
 
--- UPDATE `employee_tracker`.`employee` SET `manager_id` = '1' WHERE (`id` > '1');
+UPDATE `employee_tracker`.`employee` SET `manager_id` = '1' WHERE (`id` > '1');
 

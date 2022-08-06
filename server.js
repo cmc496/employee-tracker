@@ -6,7 +6,7 @@ const connection = require('./config/connection');
 const start = ['View Employees', 'Add Employee', 'Remove Employee', 'Update Employee Role', 'View Roles', 'Add Role', 'View Departments', 'Add Department', 'Exit'];
 
 const queryEmp = `SELECT employee.id, employee.first_name AS "First Name", employee.last_name AS "Last Name", roles.title, department.department_name AS "Department",
-    IFNULL(roles.salary, "No Data") AS "Salary", CONCAT(manager.first_name," ",manager.last_name) AS "Manager
+    IFNULL(roles.salary, "No Data") AS "Salary", CONCAT(manager.first_name," ", manager.last_name) AS "Manager"
     FROM employee
     LEFT JOIN roles
     ON roles.id = employee.role_id
