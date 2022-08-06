@@ -3,7 +3,7 @@ const consoleTable = require('console.table');
 const inquirer = require('inquirer');
 const connection = require('./config/connection');
 
-const start = ['See Employees', 'Add Employee', 'Remove Employee', 'Update Employee Role', 'View Roles', 'Add Role', 'View Departments', 'Add Department', 'Exit'];
+const start = ['View Employees', 'Add Employee', 'Remove Employee', 'Update Employee Role', 'View Roles', 'Add Role', 'View Departments', 'Add Department', 'Exit'];
 
 const queryEmp = `SELECT employee.id, employee.first_name AS "First Name", employee.last_name AS "Last Name", roles.title, department.department_name AS "Department",
     IFNULL(roles.salary, "No Data") AS "Salary", CONCAT(manager.first_name," ",manager.last_name) AS "Manager
@@ -36,6 +36,9 @@ const run = () => {
         case 'Remove Employee':
             removeEmployee();
             break;
+        case 'Update Employee Role':
+            updateEmployee();
+            break;
         case 'View Roles':
             viewRoles();
             break;
@@ -58,7 +61,7 @@ const run = () => {
 const showEmployees = () => {
     connection.query(queryEmp, (err, result) => {
         if (err) throw err;
-        console.log('error');
+        console.log('');
         console.table(('All employees'), result)
         run();
     })
@@ -110,7 +113,7 @@ const addEmployee = () => {
 const removeEmployee = () => {
     connection.query(questionEmp, (err, result) => {
         if (err) throw err;
-        console.log('error');
+        console.log('');
         console.table(('All Employees'), result)
 
         inquirer.prompt([
@@ -164,7 +167,7 @@ const viewRoles = () => {
     let retrieve = `SELECT title AS "Title", salary AS "Salary", id AS "ID" FROM roles`;
     connection.query(retrieve, (err, result) => {
         if (err) throw err;
-        console.log('error');
+        console.log('');
         console.table(('All roles displayed:'), result);
         run();
     })
@@ -175,7 +178,7 @@ const addRole = () => {
 
     connection.query(retrieve, (err, result) => {
         if (err) throw err;
-        console.log('error');
+        console.log('');
         console.table(('List of all roles:'), result[0]);
         
         inquirer.prompt([
@@ -213,7 +216,7 @@ const viewDepartments = () => {
     const retrieve = `SELECT department_name AS "Department", id AS "Department ID" FROM department`;
     connection.query(retrieve, (err, result) => {
         if (err) throw err;
-        console.log('error');
+        console.log('');
         console.table(('All departments displayed:'), result)
         run();
     })
@@ -224,7 +227,7 @@ const addDepartment = () => {
 
     connection.query(retrieve, (err, result) => {
         if (err) throw err;
-        console.log('error');
+        console.log('');
         console.table(('List of departments:'), result);
 
         inquirer.prompt([
