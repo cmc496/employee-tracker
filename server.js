@@ -6,7 +6,7 @@ const connection = require('./config/connection');
 const start = ['See Employees', 'Add Employee', 'Remove Employee', 'Update Employee Role', 'View Roles', 'Add Role', 'View Departments', 'Add Department', 'Exit'];
 
 const queryEmp = `SELECT employee.id, employee.first_name AS "First Name", employee.last_name AS "Last Name", roles.title, department.department_name AS "Department",
-    IFNULL(roles.salary, "No Data") AS "Salary", CONCAT(manager.first_name," ", manager.last_name) AS "Manager
+    IFNULL(roles.salary, "No Data") AS "Salary", CONCAT(manager.first_name," ",manager.last_name) AS "Manager
     FROM employee
     LEFT JOIN roles
     ON roles.id = employee.role_id
@@ -17,7 +17,7 @@ const queryEmp = `SELECT employee.id, employee.first_name AS "First Name", emplo
 
 const questionEmp = ['What is first name of employee?', 'What is last name of employee?', 'What is role of employee?', 'Who is manager of employee?']
 
-const questionRole = `SELECT * FROM roles; SELECT CONCAT (employee.first_name, " ", employee.last_name) AS full_name FROM employee;`
+const questionRole = `SELECT * FROM roles; SELECT CONCAT (employee.first_name, " ",employee.last_name) AS full_name FROM employee;`
 
 const run = () => {
     inquirer.prompt({
@@ -100,7 +100,7 @@ const addEmployee = () => {
         ]) .then((answer) => {
             connection.query(
                 `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES(?, ?, (SELECT id FROM roles WHERE title = ? ),
-            (SELECT id FROM (SELECT if FROM employee WHERE CONCAT(first_name, " ", last_name) = ? ) AS tempTable))`, [answer.firstName, answer.lastName, answer.role, answer.manager]
+            (SELECT id FROM (SELECT if FROM employee WHERE CONCAT(first_name, " ",last_name) = ? ) AS tempTable))`, [answer.firstName, answer.lastName, answer.role, answer.manager]
             )
             run();
         })
@@ -127,7 +127,7 @@ const removeEmployee = () => {
 }
 
 const updateEmployee = () => {
-    const retrieve = `SELECT CONCAT (first_name, " ", last_name) AS full_name FROM employee; SEELCT title FROM roles`
+    const retrieve = `SELECT CONCAT (first_name, " ",last_name) AS full_name FROM employee; SEELCT title FROM roles`
 
     connection.query(retrieve, (err, result) => {
         if (err) throw err;
